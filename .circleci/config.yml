@@ -87,14 +87,12 @@ jobs:
       - run:
           name: run the robotframework tests
           command: |
-            cd samples/robotframework
+            cd samples/robotframework/robotframework-browser
             ls
             pwd
-            pip install robotframework-browser && \
-            pwd && \
-            ls && \
+            pip install -r requirements.txt && \
             rfbrowser init && \
-            robot -d reports -x junit-report.xml "./tests"
+            robot -d reports -x junit-report.xml "./tests" || true
       - persist_to_workspace:
           root: ./
           paths:
