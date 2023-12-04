@@ -81,16 +81,18 @@ jobs:
 
   build-and-test-robotframework-tests:
     docker:
-      - image: python:latest 
+      - image: cimg/python:3.7-browsers  
     steps:
       - checkout
       - run:
           name: run the robotframework tests
           command: |
-            sudo apt-get update && \
-            sudo apt-get install -y nodejs npm && \
             cd samples/robotframework/robotframework-browser
             node -v
+            python --version
+            node --version
+            java --version
+            google-chrome --version
             CHROME_VERSION="113.0.5672.92-1" && \
             sudo wget -O google-chrome.deb "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb" && \
             sudo apt-get install -y -f ./google-chrome.deb && \
