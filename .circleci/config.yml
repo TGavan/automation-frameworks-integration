@@ -88,7 +88,11 @@ jobs:
           name: run the robotframework tests
           command: |
             cd samples/robotframework/robotframework-browser
-            ls
+            Node -v
+            CHROME_VERSION="113.0.5672.92-1" && \
+            sudo wget -O google-chrome.deb "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb" && \
+            sudo apt-get install -y -f ./google-chrome.deb && \
+            google-chrome --version && \
             pwd
             pip install -r requirements.txt && \
             rfbrowser init && \
