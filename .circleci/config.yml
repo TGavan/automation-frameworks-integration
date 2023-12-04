@@ -163,10 +163,9 @@ jobs:
 
   build-and-test-testng-selenium:
     docker:
-      - image: cimg/openjdk:15.0
+      - image: cimg/openjdk:15.0-browsers 
     steps:
-      - browser-tools/install-browser-tools:
-          chrome-version: 109.0.5414.74
+      - browser-tools/install-browser-tools
       # Checkout the code as the first step.
       - checkout
       # Build and run the tests
@@ -175,15 +174,14 @@ jobs:
           command: |
             cd samples/java/testng-selenium
             mvn clean compile test || true
-            sleep 10s
             pwd
             ls
-            cd target
+            cd reports
             ls
       - persist_to_workspace:
           root: ./
           paths:
-            - samples/java/testng-selenium/target
+            - samples/java/testng-selenium/reports
 
   install-trcli-and-parse-results-testng-selenium:
     docker:
