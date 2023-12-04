@@ -81,12 +81,14 @@ jobs:
 
   build-and-test-robotframework-tests:
     docker:
-      - image: cimg/python:3.11.6-node
+      - image: python:latest 
     steps:
       - checkout
       - run:
           name: run the robotframework tests
           command: |
+            sudo apt-get update && \
+            sudo apt-get install -y nodejs npm && \
             cd samples/robotframework/robotframework-browser
             node -v
             CHROME_VERSION="113.0.5672.92-1" && \
