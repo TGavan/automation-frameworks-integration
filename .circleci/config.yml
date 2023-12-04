@@ -200,7 +200,7 @@ jobs:
              parse_junit \
              --title "Automated TestNG Selenium from CircleCI workflow" \
              --run-description $CIRCLE_BUILD_URL \
-             -f "./automation-framework-integration/samples/java/testng-selenium/target/surefire-reports/TEST-TestSuite.xml"
+             -f "./automation-framework-integration/samples/java/testng-selenium/reports/TEST-TestSuite.xml"
   build-and-test-nunit:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:6.0
