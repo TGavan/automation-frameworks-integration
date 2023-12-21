@@ -1,0 +1,40 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.10.12'
+  displayName: 'Setup Python'
+
+- script: |
+    npm install
+    npx playwright install-deps
+    npx playwright install
+    npx playwright test
+  displayName: 'Run Playwright tests'
+  continueOnError: true
+- script: |
+    pip install trcli
+    trcli -y \
+      -h "https://INSTANCE-NAME.testrail.io" \
+      --project "PROJECT-NAME" \
+      -u "USERNAME" \
+      -p "PASSWORD" \
+      parse_junit \
+      -f "test-results/junit-report.xml" \
+      --title "Playwright automated tests" \
+      --run-description "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+  displayName: 'Upload results with TestRail CLI'
